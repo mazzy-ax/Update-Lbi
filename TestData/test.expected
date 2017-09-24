@@ -1,0 +1,10 @@
+<!-- html fragment -->
+    more <!-- #BeginLibraryItem "/Library/testdiv.lbi" -->
+    <div>
+        div content
+    </div>
+    <!-- #EndLibraryItem --><!-- #BeginLibraryItem "/Library/testdiv.lbi" -->
+    <div>
+        div content
+    </div>
+    <!-- #EndLibraryItem -->

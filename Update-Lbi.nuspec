@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>update-lbi</id>
+    <title>update-Lbi</title>
+    <version>0.1.0</version>
+    <authors>Sergey Mazurkin</authors>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/mazzy-ax/Update-Lbi</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Powershell cmdlet updates Dreamweaver library items (LBI) within html-files.</description>
+    <releaseNotes>Known issues: Use UTF-8 only. One thread only.</releaseNotes>
+    <tags>dreamweaver library lbi html</tags>
+  </metadata>
+  <files>
+    <file src="Update-Lbi.psd1" target=""/>
+    <file src="Update-Lbi.psm1" target=""/>
+    <file src="Update-Lbi.Tests.ps1" target=""/>
+    <file src="LICENSE*" target=""/>
+    <file src="README.md" target=""/>
+    <file src="CHANGELOG.md" target=""/>
+    <file src="TestData\**\*.*" target="\TestData"/>
+  </files>
+</package>

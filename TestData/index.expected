@@ -1,0 +1,10 @@
+<html>
+<body>
+    <p>some text content with <!-- #BeginLibraryItem "/Library/onliner.lbi" --><span>onliner!</span><!-- #EndLibraryItem -->.</p>
+    anoter text<!-- #BeginLibraryItem "/Library/testdiv.lbi" -->
+    <div>
+        div content
+    </div>
+    <!-- #EndLibraryItem -->
+</body>
+</html>
