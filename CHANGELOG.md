@@ -19,5 +19,5 @@ A reset cache functionality:
 
 Initial version
 
-[v0.1.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.1.0...v0.2.0
+[v0.2.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.1.0...v0.1.0
