@@ -3,13 +3,13 @@
   <metadata>
     <id>update-lbi</id>
     <title>update-Lbi</title>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <authors>Sergey Mazurkin</authors>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <projectUrl>https://github.com/mazzy-ax/Update-Lbi</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Powershell cmdlet updates Dreamweaver library items (LBI) within html-files.</description>
-    <releaseNotes>Known issues: Use UTF-8 only. One thread only.</releaseNotes>
+    <releaseNotes>Reset cache added. Known issues: Use UTF-8 only. One thread only.</releaseNotes>
     <tags>dreamweaver library lbi html</tags>
   </metadata>
   <files>

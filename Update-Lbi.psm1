@@ -1,6 +1,3 @@
-# mazzy@mazzy.ru, 2017-09-24
-# https://github.com/mazzy-ax/Update-Lbi
-#
 # Copyright (c) 2017 Sergey Mazurkin
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# mazzy@mazzy.ru, 2017-09-28
+# https://github.com/mazzy-ax/Update-Lbi
+#
 
 #requires -version 3.0
 
@@ -32,7 +33,7 @@ A LibItem contains a special html fragment:
 * started with a html-comment <!-- #BeginLibraryItem "LibraryDir\FileName.lbi" -->
 * and ended with a html-comment <!-- #EndLibraryItem -->
 
-.LINKS
+.LINK
 https://helpx.adobe.com/dreamweaver/using/library-items.html
 #>
 
@@ -68,7 +69,7 @@ Class LibItem : HtmlFragment {
     [String]$Begin
     [String]$End
 
-    Static [Hashtable] $Cache = @{}
+    Static [Hashtable] $Cache = @{} # See Reset-LibItemCache
 
     LibItem (
         [String]$Value,
@@ -121,6 +122,24 @@ Class LibItem : HtmlFragment {
     [String]LastLineIndent([String]$PreviousIndent = '') {
         # A LibItem never changes the indent. See HtmlFragment
         return $PreviousIndent
+    }
+}
+
+<#
+.SYNOPSIS
+Reset library item cache - the Update-LibItems cmdlets should read lbi-files once again.
+
+.PARAMETER SkipIt
+Do not reset cache if $true.
+#>
+function Reset-LibItemCache {
+    [CmdletBinding()]
+    Param (
+        [switch]$SkipIt
+    )
+
+    if ( -not $SkipIt ) {
+        [LibItem]::Cache = @{}
     }
 }
 
@@ -229,7 +248,7 @@ The default location is the current directory.
 .PARAMETER Force
 Forces the set-content to set the contents of a file, even if the file is read-only.
 
-.LINKS
+.LINK
 set-content
 #>
 function Update-LibItems {
@@ -296,10 +315,13 @@ Gets the files in the specified path and in all child directory.
 .PARAMETER Force
 Forces the set-content to set the contents of a file, even if the file is read-only.
 
-.LINKS
+.PARAMETER SkipResetLibItemCache
+Do not reset library item cache - the Update-LibItems cmdlets should read lbi-files once again.
+
+.LINK
 set-content
 #>
-function Update-LibItemsCli {
+function Update-Lbi {
     [cmdletbinding()]
     param(
         [Parameter(ValueFromPipeline = $true, Position = 0)]
@@ -308,7 +330,8 @@ function Update-LibItemsCli {
         [String[]]$Exclude,
         [String]$BaseDir = (Split-Path $Path -Parent),
         [switch]$Recurse,
-        [switch]$Force
+        [switch]$Force,
+        [switch]$SkipResetLibItemCache
     )
 
     process {
@@ -325,11 +348,16 @@ function Update-LibItemsCli {
 
         # TODO add progress bar
         # https://github.com/mazzy-ax/Write-ProgressEx
+
+        Reset-LibItemCache -SkipIt:$SkipResetLibItemCache
+
         Get-ChildItem $Path -Include $Include -Exclude $Exclude -Recurse:$Recurse |
             Update-LibItems -BaseDir $BaseDir
+
+        Reset-LibItemCache -SkipIt:$SkipResetLibItemCache
     }
 }
 
 Export-ModuleMember `
-    -Cmdlet Get-LibItem, Update-LibItem, Merge-LibItem, Update-LibItems, Update-LibItemsCli `
-    -Function Get-LibItem, Update-LibItem, Merge-LibItem, Update-LibItems, Update-LibItemsCli
+    -Cmdlet Update-Lbi, Get-LibItem, Update-LibItem, Merge-LibItem, Update-LibItems, Reset-LibItemCache `
+    -Function Update-Lbi, Get-LibItem, Update-LibItem, Merge-LibItem, Update-LibItems, Reset-LibItemCache
