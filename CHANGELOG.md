@@ -1,8 +1,23 @@
-mazzy@mazzy.ru, 2017-09-28, [https://github.com/mazzy-ax/Update-Lbi](https://github.com/mazzy-ax/Update-Lbi)
+mazzy@mazzy.ru, 2017-10-01, [https://github.com/mazzy-ax/Update-Lbi](https://github.com/mazzy-ax/Update-Lbi)
 
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [v0.3.0] - 2017-10-01
+
+* Added:
+  * Read-Lbi cmdlet
+  * Read-LibItem cmdlet
+  * Parameter UseCachedLbiOnly added
+* Renamed:
+  * Reset-LbiCache from Reset-LibItemCache
+  * Get-HtmlFragment from Get-LibItem
+  * Update-HtmlFragment from Update-LibItem
+  * Merge-HtmlFragment from Merge-LibItem
+* Read lbi extracted from the class methot to cmdlet
+* Reset-LbiCache work with pipe
+* Minor errors fixed
 
 ## [v0.2.0] - 2017-09-28
 
@@ -19,5 +34,6 @@ A reset cache functionality:
 
 Initial version
 
+[v0.2.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.1.0...v0.1.0

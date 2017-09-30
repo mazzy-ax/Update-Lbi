@@ -1,20 +1,5 @@
-# Copyright (c) 2017 Sergey Mazurkin
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# mazzy@mazzy.ru, 2017-09-28
+# mazzy@mazzy.ru, 2017-10-01
 # https://github.com/mazzy-ax/Update-Lbi
-#
 
 #requires -version 3.0
 
@@ -46,7 +31,7 @@ Class HtmlFragment {
         $this.Value = $Value
     }
 
-    [HtmlFragment]Update([String]$BaseDir) {
+    [HtmlFragment]Update([switch]$UseCachedLbiOnly) {
         return $this
     }
 
@@ -69,7 +54,7 @@ Class LibItem : HtmlFragment {
     [String]$Begin
     [String]$End
 
-    Static [Hashtable] $Cache = @{} # See Reset-LibItemCache
+    Static [Hashtable] $Cache = @{} # See Reset-LbiCache
 
     LibItem (
         [String]$Value,
@@ -82,27 +67,22 @@ Class LibItem : HtmlFragment {
         $this.End = $End
     }
 
-    [HtmlFragment]Update([String]$BaseDir) {
-        $File = Join-Path -Path $BaseDir -ChildPath $this.FileName
-
-        if ( $File -in $this::Cache.Keys ) {
-            Write-Verbose "Read from the cache. Key='$File'"
-            return $this::Cache[$File]
+    [HtmlFragment]Update([switch]$UseCachedLbiOnly) {
+        if ( $this.FileName -in $this::Cache.Keys ) {
+            Write-Verbose "Read from the cache. Key='$This.FileName'"
+            $this.Value = $this::Cache[$this.FileName]
         }
-
-        if ( Test-Path $File ) {
-            Write-Verbose "Read from the file '$File'"
-            $Text = Get-Content -LiteralPath $File -Encoding UTF8 -Raw
-            $Parts = $Text -split '<meta.*?charset=utf-8.*?>'
-            $this.Value = -join $Parts
-            Write-Verbose "Lbi from file '$this.FileName' in the directory '$BaseDir'."
-
-            Write-Verbose "set cache: key='$file'"
-            $this::Cache[$File] = $this
+        elseif ( $UseCachedLbiOnly ) {
+            Write-Warning "Lbi '$this.FileName' was not found in the cache and the UseCachedLbiOnly is switch on. Inner text is not changed."
         }
         else {
-            # TODO ?add to cache to avoid redundant Test-Path?
-            Write-Warning "Lbi '$this.FileName' is not found in the directory '$BaseDir'. Inner text is not changed."
+            try {
+                $this.Value = Read-LibItem $this.FileName
+            }
+            catch {
+                # TODO ?add to cache to avoid redundant Test-Path?
+                Write-Warning "Lbi '$this.FileName' was not readed. Inner text is not changed."
+            }
         }
 
         return $this
@@ -132,42 +112,103 @@ Reset library item cache - the Update-LibItems cmdlets should read lbi-files onc
 .PARAMETER SkipIt
 Do not reset cache if $true.
 #>
-function Reset-LibItemCache {
+function Reset-LbiCache {
     [CmdletBinding()]
+    [OutputType([void])]
     Param (
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
         [switch]$SkipIt
     )
 
-    if ( -not $SkipIt ) {
-        [LibItem]::Cache = @{}
+    begin {
+        if ( -not $SkipIt ) {
+            [LibItem]::Cache = @{}
+        }
+    }
+
+    process {
+        [LibItem]::Cache
+    }
+
+    end {
+        if ( -not $SkipIt ) {
+            [LibItem]::Cache = @{}
+        }
+    }
+}
+
+
+<#
+.SYNOPSIS
+Read a Lbi from files and update cache.
+
+.PARAMETER File
+A literal path to Lbi-files.
+
+.NOTES
+Throw error if a file is not found.
+#>
+function Read-LibItem {
+    [CmdletBinding()]
+    [OutputType([string[]])]
+    Param (
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
+        [String[]]$LiteralPath,
+
+        [switch]$SkipUpdateLbiCache
+    )
+
+    process {
+        foreach($File in $LiteralPath) {
+            Write-Verbose "Read Lbi from the file '$File'"
+            $Text = Get-Content -LiteralPath $File -Encoding UTF8 -Raw     # throw is possible
+            Write-Verbose "The Lbi have readed from file '$File'"
+
+            $Value = $Text -replace '^<meta.*?charset=utf-8.*?>'
+
+            if ( -not $SkipUpdateLbiCache ) {
+                Write-Verbose "set cache: key='$File'"
+                [LibItem]::Cache[$File] = $Value
+            }
+
+            $Value
+        }
     }
 }
 
 <#
 .SYNOPSIS
-Gets an fragments from an HtmlText.
+Gets all fragments from an HtmlText.
 
 .DESCRIPTION
-It splits an HTMLText into fragments and returns all fragments.
+It splits an HTMLText into html fragments and library items.
 
 .PARAMETER HtmlText
 Whole html text.
 
+.PARAMETER BaseDir
+Base directory for library files.
+The default location is the current directory.
+
 .EXAMPLE
-Get-Content example.html -raw | Get-LibItem
+Get-Content example.html -raw | Get-HtmlFragment
 #>
-function Get-LibItem {
+function Get-HtmlFragment {
     [CmdletBinding()]
     [OutputType([HtmlFragment])]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
-        [String]$HtmlText
+        [String]$HtmlText,
+
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
+        [String]$BaseDir = (Get-Location)
     )
 
     process {
         $HtmlText -split '(<!-- #BeginLibraryItem ".*?" -->[\s\S]*?<!-- #EndLibraryItem -->)' | ForEach-Object {
             if ( $_ -match '^(?<Begin><!-- #BeginLibraryItem "(?<filename>.*?)" -->)(?<Value>[\s\S]*?)(?<End><!-- #EndLibraryItem -->)$' ) {
-                [LibItem]::New($Matches['Value'], $Matches['filename'], $Matches['Begin'], $Matches['End'])
+                $File = Get-ChildItem (Join-Path -Path $BaseDir -ChildPath $Matches['filename']) | Select-Object -First 1
+                [LibItem]::New($Matches['Value'], $File, $Matches['Begin'], $Matches['End'])
             }
             elseif ( $_ ) {
                 [HtmlFragment]::New($_)
@@ -178,27 +219,26 @@ function Get-LibItem {
 
 <#
 .SYNOPSIS
-Updates fragments
-
-.PARAMETER BaseDir
-Base directory for library files.
-The default location is the current directory.
+Update html-fragments.
 
 .PARAMETER Fragment
 [HtmlFragment] or derived [LibItems] objects
-#>
-function Update-LibItem {
-    [CmdletBinding()]
-    Param (
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
-        [String]$BaseDir = (Get-Location),
 
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
-        [HtmlFragment]$Fragment
+.PARAMETER UseCachedLbiOnly
+Use early cached library items only. If the switch enabled and a lbi is not found in the cache, cmdlet return the original framgent.
+#>
+function Update-HtmlFragment {
+    [CmdletBinding()]
+    [OutputType([HtmlFragment])]
+    Param (
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
+        [HtmlFragment]$Fragment,
+
+        [switch]$UseCachedLbiOnly
     )
 
     process {
-        $Fragment.Update($BaseDir)
+        $Fragment.Update($UseCachedLbiOnly)
     }
 }
 
@@ -209,7 +249,7 @@ Merge all fragments. It indents LibItems by a last line in previous html fragmen
 .PARAMETER Fragments
 [HtmlFragment] and [LibItem]
 #>
-function Merge-LibItem {
+function Merge-HtmlFragment {
     [CmdletBinding()]
     [OutputType([String])]
     Param (
@@ -224,8 +264,10 @@ function Merge-LibItem {
 
     process {
         foreach ($Fragment in $Fragments) {
-            [void]$Html.Append($Fragment.Text($IdentStr))
-            $IdentStr = $Fragment.LastLineIndent($IdentStr)
+            if ($Fragment) {
+                [void]$Html.Append($Fragment.Text($IdentStr))
+                $IdentStr = $Fragment.LastLineIndent($IdentStr)
+            }
         }
     }
 
@@ -239,14 +281,17 @@ function Merge-LibItem {
 Update all LibItems in one html file.
 
 .PARAMETER FileName
-An html file name.
+A literal path to html file.
 
 .PARAMETER BaseDir
-Base directory for library files.
+A Base directory for library files.
 The default location is the current directory.
 
 .PARAMETER Force
 Forces the set-content to set the contents of a file, even if the file is read-only.
+
+.PARAMETER UseCachedLbiOnly
+Use early cached library items only. If the switch enabled and a lbi is not found in the cache, cmdlet uses the original framgent.
 
 .LINK
 set-content
@@ -255,30 +300,88 @@ function Update-LibItems {
     [cmdletbinding()]
     param(
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
-        [String[]]$FileName,
+        [String[]]$LiteralPath,
 
         [Parameter(ValueFromPipelineByPropertyName = $true)]
         [String]$BaseDir = (Get-Location),
 
-        [switch]$Force
+        [switch]$Force,
+
+        [switch]$UseCachedLbiOnly
     )
 
     process {
-        $FileName | ForEach-Object {
-            if ( Test-Path $_ ) {
-                Write-Output "BaseDir='$BaseDir'. Upate LBI in file '$_'"
+        foreach($File in $LiteralPath) {
+            Write-Output "BaseDir='$BaseDir'. Upate all Lbi in file '$File'"
+            Write-Verbose "UseCachedLbiOnly=$UseCachedLbiOnly"
+            Write-Verbose "Force=$Force"
 
-                $Html = Get-Content -LiteralPath $_ -Encoding UTF8 -Raw |
-                    Get-LibItem |
-                    Update-LibItem -BaseDir $BaseDir |
-                    Merge-LibItem
+            try {
+                $Html = Get-Content -LiteralPath $File -Encoding UTF8 -Raw |
+                    Get-HtmlFragment -BaseDir $BaseDir |
+                    Update-HtmlFragment -UseCachedLbiOnly:$UseCachedLbiOnly |
+                    Merge-HtmlFragment
 
-                $Html | Out-File -FilePath $_ -Encoding UTF8 -NoNewline -Force:$Force
+                $Html | Out-File -FilePath $File -Encoding UTF8 -NoNewline -Force:$Force
             }
-            else {
-                Write-Error "File '$_' not found."
+            catch {
+                Write-Error $Error[0]
             }
         }
+    }
+}
+
+<#
+.SYNOPSIS
+Read lbi and store it to lbi cache.
+
+.PARAMETER Path
+Specifies a path to the site root.
+Wildcards are permitted. The default path is all lbi-files in the Library subdirectory of the current directory.
+
+.PARAMETER Include
+Gets only the specified items. The value of this parameter qualifies the -Path parameter. Enter a path element or pattern, such as '*.lbi'.
+Wildcards are permitted. The default value is '*.lbi'
+
+.PARAMETER Exclude
+Omits the specified items. The value of this parameter qualifies the -Path parameter.
+Wildcards are permitted.
+
+.PARAMETER BaseDir
+Base directory for library files.
+The default location is the current directory.
+
+.PARAMETER Recurse
+Gets the files in the specified path and in all child directory.
+
+#>
+function Read-Lbi {
+    [cmdletbinding()]
+    param(
+        [Parameter(ValueFromPipeline = $true, Position = 0)]
+        [String[]]$Path = (Join-Path (Get-Location) '/Library/*'),
+        [String[]]$Include = '*.lbi',
+        [String[]]$Exclude,
+        [switch]$Recurse
+    )
+
+    process {
+        Write-Verbose "Read Dreamveawer library items (Lbi) and save it to lbi cache."
+        Write-Verbose "Path=$Path"
+        Write-Verbose "Include=$Include"
+        Write-Verbose "Exclude=$Exclude"
+        Write-Verbose "Recurse=$Recurse"
+
+        # TODO is it more effective with a parallel updating?
+        # see native 'foreach -parallel' and
+        # https://github.com/RamblingCookieMonster/Invoke-Parallel
+        # https://github.com/powercode/PSParallel
+
+        # TODO add progress bar
+        # https://github.com/mazzy-ax/Write-ProgressEx
+
+        Get-ChildItem $Path -Include $Include -Exclude $Exclude -Recurse:$Recurse |
+            Read-LibItem | Out-Null
     }
 }
 
@@ -315,7 +418,10 @@ Gets the files in the specified path and in all child directory.
 .PARAMETER Force
 Forces the set-content to set the contents of a file, even if the file is read-only.
 
-.PARAMETER SkipResetLibItemCache
+.PARAMETER UseCachedLbiOnly
+Use early cached library items only. If the switch enabled and a lbi is not found in the cache, cmdlet uses the original framgent.
+
+.PARAMETER SkipResetLbiCache
 Do not reset library item cache - the Update-LibItems cmdlets should read lbi-files once again.
 
 .LINK
@@ -325,21 +431,30 @@ function Update-Lbi {
     [cmdletbinding()]
     param(
         [Parameter(ValueFromPipeline = $true, Position = 0)]
-        [String[]]$Path = (Join-Path (Get-Location) "*"),
-        [String[]]$Include = @("*.html", "*.htm"),
+        [String[]]$Path = (Join-Path (Get-Location) '/*'),
+        [String[]]$Include = @('*.html', '*.htm'),
         [String[]]$Exclude,
-        [String]$BaseDir = (Split-Path $Path -Parent),
+        [String]$BaseDir = (Get-Location),
         [switch]$Recurse,
         [switch]$Force,
-        [switch]$SkipResetLibItemCache
+        [switch]$UseCachedLbiOnly,
+        [switch]$SkipResetLbiCache
     )
 
     process {
+        if ( $UseCachedLbiOnly ) {
+            $SkipResetLbiCache = $true
+        }
+
         Write-Verbose "Update Dreamveawer library items (Lbi) in files."
         Write-Verbose "Path=$Path"
         Write-Verbose "Include=$Include"
         Write-Verbose "Exclude=$Exclude"
+        Write-Verbose "BaseDir=$BaseDir"
         Write-Verbose "Recurse=$Recurse"
+        Write-Verbose "Force=$Force"
+        Write-Verbose "UseCachedLbiOnly=$UseCachedLbiOnly"
+        Write-Verbose "SkipResetLbiCache=$SkipResetLbiCache"
 
         # TODO is it more effective with a parallel updating?
         # see native 'foreach -parallel' and
@@ -349,15 +464,9 @@ function Update-Lbi {
         # TODO add progress bar
         # https://github.com/mazzy-ax/Write-ProgressEx
 
-        Reset-LibItemCache -SkipIt:$SkipResetLibItemCache
-
-        Get-ChildItem $Path -Include $Include -Exclude $Exclude -Recurse:$Recurse |
-            Update-LibItems -BaseDir $BaseDir
-
-        Reset-LibItemCache -SkipIt:$SkipResetLibItemCache
+        Reset-LbiCache -SkipIt:$SkipResetLbiCache | ForEach-Object {
+            Get-ChildItem $Path -Include $Include -Exclude $Exclude -Recurse:$Recurse |
+                Update-LibItems -BaseDir $BaseDir -UseCachedLbiOnly:$UseCachedLbiOnly
+        }
     }
 }
-
-Export-ModuleMember `
-    -Cmdlet Update-Lbi, Get-LibItem, Update-LibItem, Merge-LibItem, Update-LibItems, Reset-LibItemCache `
-    -Function Update-Lbi, Get-LibItem, Update-LibItem, Merge-LibItem, Update-LibItems, Reset-LibItemCache
