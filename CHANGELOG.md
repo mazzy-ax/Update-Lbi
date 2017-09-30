@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## [v0.3.0] - 2017-10-01
 
+* No changes - No saves. A Html file is not touched if html content is not changed.
 * Added:
   * Read-Lbi cmdlet
   * Read-LibItem cmdlet
