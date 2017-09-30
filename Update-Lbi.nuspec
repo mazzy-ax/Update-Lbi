@@ -20,7 +20,7 @@
     <file src="LICENSE*" target=""/>
     <file src="README.md" target=""/>
     <file src="CHANGELOG.md" target=""/>
-    <file src="Media\**\*" target="\Media">
+    <file src="Media\**\*" target="\Media"/>
     <file src="TestData\**\*" target="\TestData"/>
   </files>
 </package>
