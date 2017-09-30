@@ -1,6 +1,6 @@
 mazzy@mazzy.ru, 2017-10-01, [https://github.com/mazzy-ax/Update-Lbi](https://github.com/mazzy-ax/Update-Lbi)
 
-![version](https://img.shields.io/badge/version-0.2.0-green.svg) ![license](https://img.shields.io/badge/license-MIT-blue.svg)
+![version](https://img.shields.io/badge/version-0.3.0-green.svg) ![license](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ---
 
