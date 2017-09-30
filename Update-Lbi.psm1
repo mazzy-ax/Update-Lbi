@@ -317,12 +317,15 @@ function Update-LibItems {
             Write-Verbose "Force=$Force"
 
             try {
-                $Html = Get-Content -LiteralPath $File -Encoding UTF8 -Raw |
+                $HtmlSource = Get-Content -LiteralPath $File -Encoding UTF8 -Raw
+                $HtmlResult = $HtmlSource |
                     Get-HtmlFragment -BaseDir $BaseDir |
                     Update-HtmlFragment -UseCachedLbiOnly:$UseCachedLbiOnly |
                     Merge-HtmlFragment
 
-                $Html | Out-File -FilePath $File -Encoding UTF8 -NoNewline -Force:$Force
+                if ( $HtmlSource -ne $HtmlResult ) {
+                    $HtmlResult | Out-File -FilePath $File -Encoding UTF8 -NoNewline -Force:$Force
+                }
             }
             catch {
                 Write-Error $Error[0]
