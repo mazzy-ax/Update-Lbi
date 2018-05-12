@@ -69,7 +69,7 @@ Automatic install the Update-Lbi cmdlet from the [NuGet.org][nuget]:
 Install-Package Update-Lbi
 ```
 
-or manual download and unzip the [latest module files](https://github.com/mazzy-ax/Update-Lbi/archive/master.zip) into your `$PSModulePath`. For example `$env:USERPROFILE\Documents\WindowsPowerShell\Modules`. Set an execution policy to RemoteSigned or Unrestricted to execute not signed modules.
+or manual download and unzip the [latest module files](https://github.com/mazzy-ax/Update-Lbi/archive/master.zip) into your `$PSModulePath`. For example `$env:USERPROFILE\Documents\WindowsPowerShell\Modules`. Set an execution policy to `RemoteSigned` or `Unrestricted` to execute not signed modules.
 
 ```powershell
 Set-ExecutionPolicy RemoteSigned
