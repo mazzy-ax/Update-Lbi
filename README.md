@@ -83,7 +83,7 @@ Set-ExecutionPolicy RemoteSigned
 ## Changelog
 
 * [CHANGELOG.md](CHANGELOG.md)
-* <https://github.com/mazzy-ax/xpoTools/releases>.
+* <https://github.com/mazzy-ax/Update-Lbi/releases>.
 
 ## License
 
