@@ -2,7 +2,7 @@
 
 All notable changes to the [project](https://github.com/mazzy-ax/Update-Lbi) will be documented in this file. See also <https://github.com/mazzy-ax/Update-Lbi/releases>.
 
-## [0.4.0](https://github.com/mazzy-ax/Update-Lbi/compare/0.3.0...0.4.0) - 2018-05-12
+## [0.4.0](https://github.com/mazzy-ax/Update-Lbi/compare/v0.3.0...v0.4.0) - 2018-05-12
 
 * The directory structure reorganized to remove media, examples and tests from nuget downloads and powershell gallery
 * Cmdlets extracted to separate files
