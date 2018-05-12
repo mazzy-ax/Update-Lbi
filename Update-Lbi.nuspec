@@ -7,10 +7,20 @@
     <authors>Sergey Mazurkin</authors>
     <licenseUrl>https://github.com/mazzy-ax/Update-Lbi/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/mazzy-ax/Update-Lbi</projectUrl>
-    <iconUrl>https://github.com/mazzy-ax/Update-Lbi/blob/master/Media/Update-Lbi-icon.png</iconUrl>
+    <iconUrl>https://github.com/mazzy-ax/Update-Lbi/blob/master/Media/Update-Lbi-icon.png?raw=true</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Powershell cmdlet updates Dreamweaver library items (LBI) within html-files.</description>
-    <releaseNotes>Read-Lbi cmdlet added. Lot of fixes. Known issues: Use UTF-8 only. One thread only.</releaseNotes>
+    <releaseNotes>
+## 0.4.0
+
+* The directory structure reorganized to remove media, examples and tests from nuget downloads and powershell gallery
+* Cmdlets extracted to separate files
+* The list of public cmdlets changed. Public cmdlets are: Update-Lbi, Read-Lbi, Reset-LbiCache. Other cmdlets are internal
+* A required version changed from 3.0 to 5.0 because a 'class' used
+* Project meta info tests added
+* The name of the cmdlet Update-LbiItems changed to Update-LbiItem due psScriptAnalyzer recommendations
+* Readme and typo cleared
+    </releaseNotes>
     <tags>dreamweaver library lbi html</tags>
   </metadata>
   <files>
