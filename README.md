@@ -1,12 +1,18 @@
-mazzy@mazzy.ru, 2017-10-01, [https://github.com/mazzy-ax/Update-Lbi](https://github.com/mazzy-ax/Update-Lbi)
-
-![version](https://img.shields.io/badge/version-0.3.0-green.svg) ![license](https://img.shields.io/badge/license-MIT-blue.svg)
-
----
-
 # Update-Lbi
 
-**Update-Lbi** is powershell cmdlet updates **Dreamweaver library items** (LBI) within html-files.
+[project]:https://github.com/mazzy-ax/Update-Lbi
+[license]:https://github.com/mazzy-ax/Update-Lbi/blob/master/LICENSE
+[ps]:https://www.powershellgallery.com/packages/Update-Lbi
+[nuget]:https://www.nuget.org/packages/update-lbi
+
+[version.svg]:https://img.shields.io/badge/version-0.4.0-green.svg
+[license.svg]:https://img.shields.io/badge/license-MIT-blue.svg
+[ps.svg]:https://img.shields.io/badge/Powershell-Gallery-4682B4.svg
+[nuget.svg]:https://img.shields.io/badge/downloads-NuGet-orange.svg
+
+[![version][version.svg]][project] [![license MIT][license.svg]][license] [![PowerShell Gallery][ps.svg]][ps] [![NuGet][nuget.svg]][nuget]
+
+[Update-Lbi][project] is powershell cmdlet updates **Dreamweaver library items** (LBI) within html-files.
 
 ![icon](/Media/Update-Lbi-icon.png "Update-Lbi")
 
@@ -20,9 +26,9 @@ html tags and regular texts
 
 The cmlet read filename.lbi and refresh all content between #BeginLibraryItem and #EndLibraryItem html-comments.
 
-See more about LBI: https://helpx.adobe.com/dreamweaver/using/library-items.html
+See more about LBI: <https://helpx.adobe.com/dreamweaver/using/library-items.html>
 
-# Examples
+## Examples
 
 Update all html-files in the site root directory and it's subdirectories. The cmdlet reinitialize the lbi-cache at each execution.
 
@@ -49,31 +55,38 @@ Reset-LbiCache | % {
 }
 ```
 
-# Installation
+## Installation
 
-Automatic install the Update-Lbi cmdlet from the [PowerShell Gallery](https://www.powershellgallery.com/packages/Update-Lbi):
+Automatic install the Update-Lbi cmdlet from the [PowerShell Gallery][ps]:
 
 ```powershell
 Install-Module Update-Lbi
 ```
 
-Automatic install the Update-Lbi cmdlet from the [NuGet.org](https://www.nuget.org/packages/Update-Lbi):
+Automatic install the Update-Lbi cmdlet from the [NuGet.org][nuget]:
 
 ```powershell
 Install-Package Update-Lbi
 ```
 
-or manual download and unzip the [latest module files](https://github.com/mazzy-ax/Update-Lbi/archive/master.zip) into your $PSModulePath. For example $env:USERPROFILE\Documents\WindowsPowerShell\Modules. Set an execution policy to RemoteSigned or Unrestricted to execute not signed modules.
+or manual download and unzip the [latest module files](https://github.com/mazzy-ax/Update-Lbi/archive/master.zip) into your `$PSModulePath`. For example `$env:USERPROFILE\Documents\WindowsPowerShell\Modules`. Set an execution policy to RemoteSigned or Unrestricted to execute not signed modules.
 
 ```powershell
 Set-ExecutionPolicy RemoteSigned
 ```
 
-# Known issues and ideas for a future development
+## Known issues and ideas for a future development
 
 * The cmdlet does not read a character encoding from LBI and html-files. The cmdlet always use UTF-8 encoding.
 * The cmdlet does not use parallel processing. It is one thread application.
 
-# Changelog
+## Changelog
 
-See file [CHANGELOG.md](/CHANGELOG.md)
+* [CHANGELOG.md](CHANGELOG.md)
+* <https://github.com/mazzy-ax/xpoTools/releases>.
+
+## License
+
+This project is [licensed under the MIT License][license].
+
+mazzy@mazzy.ru

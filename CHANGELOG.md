@@ -1,10 +1,18 @@
-mazzy@mazzy.ru, 2017-10-01, [https://github.com/mazzy-ax/Update-Lbi](https://github.com/mazzy-ax/Update-Lbi)
-
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to the [project](https://github.com/mazzy-ax/Update-Lbi) will be documented in this file. See also <https://github.com/mazzy-ax/Update-Lbi/releases>.
 
-## [v0.3.0] - 2017-10-01
+## [0.4.0](https://github.com/mazzy-ax/Update-Lbi/compare/0.3.0...0.4.0) - 2018-05-12
+
+* The directory structure reorganized to remove media, examples and tests from nuget downloads and powershell gallery
+* Cmdlets extracted to separate files
+* The list of public cmdlets changed. Public cmdlets are: Update-Lbi, Read-Lbi, Reset-LbiCache. Other cmdlets are internal
+* A required version changed from 3.0 to 5.0 because a `class` used
+* Project meta info tests added
+* The name of the cmdlet `Update-LbiItems` changed to `Update-LbiItem` due psScriptAnalyzer recommendations
+* Readme and typo cleared
+
+## [0.3.0] - 2017-10-01
 
 * No changes - No saves. A Html file is not touched if html content is not changed.
 * Added:
@@ -20,7 +28,7 @@ All notable changes to this project will be documented in this file.
 * Reset-LbiCache work with pipe
 * Minor errors fixed
 
-## [v0.2.0] - 2017-09-28
+## [0.2.0] - 2017-09-28
 
 A reset cache functionality:
 
@@ -31,10 +39,10 @@ A reset cache functionality:
 * README.md updated
 * The test data updated
 
-## [v0.1.0] - 2017-09-24
+## [0.1.0] - 2017-09-24
 
 Initial version
 
-[v0.3.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.2.0...v0.3.0
-[v0.2.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.1.0...v0.2.0
-[v0.1.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.1.0...v0.1.0
+[0.3.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/mazzy-ax/Update-Lbi/compare/v0.1.0...v0.1.0

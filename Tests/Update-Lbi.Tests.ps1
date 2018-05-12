@@ -1,18 +1,17 @@
-﻿# mazzy@mazzy.ru, 2017-10-01
-# https://github.com/mazzy-ax/Update-Lbi
+﻿$projectRoot = Resolve-Path "$PSScriptRoot\.."
+$moduleRoot = Split-Path (Resolve-Path "$projectRoot\*\*.psd1")
+$moduleName = Split-Path $moduleRoot -Leaf
 
-#requires -version 3.0
+$assets = "$projectRoot\Tests\TestData"
 
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+#Import-Module $moduleRoot -Force
 
-Import-Module -Force ".\Update-Lbi.psm1"
-
-Describe "Update-Lbi" {
+Describe $moduleName -Tags Run, UnitTest, UT {
 
     Context "Example 1: Simple Use" {
-        $Source = Join-Path $here 'TestData\*'
+        $Source = $assets
         $Target = 'TestDrive:\'
-        Copy-Item $Source $Target -Recurse -Force
+        Copy-Item $Source\* $Target -Recurse -Force
         Push-Location $Target
 
         Update-Lbi -Recurse
@@ -31,9 +30,9 @@ Describe "Update-Lbi" {
     }
 
     Context "Example 2: Update some Lbi only" {
-        $Source = Join-Path $here 'TestData\*'
+        $Source = $assets
         $Target = 'TestDrive:\'
-        Copy-Item $Source $Target -Recurse -Force
+        Copy-Item $Source\* $Target -Recurse -Force
         Push-Location $Target
 
         Read-Lbi
@@ -53,9 +52,9 @@ Describe "Update-Lbi" {
     }
 
     Context "Example 3: Update some files only" {
-        $Source = Join-Path $here 'TestData\*'
+        $Source = $assets
         $Target = 'TestDrive:\'
-        Copy-Item $Source $Target -Recurse -Force
+        Copy-Item $Source\* $Target -Recurse -Force
         Push-Location $Target
 
         Reset-LbiCache | ForEach-Object {

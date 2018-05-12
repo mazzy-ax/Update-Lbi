@@ -3,7 +3,7 @@
   <metadata>
     <id>update-lbi</id>
     <title>update-Lbi</title>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <authors>Sergey Mazurkin</authors>
     <licenseUrl>https://github.com/mazzy-ax/Update-Lbi/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/mazzy-ax/Update-Lbi</projectUrl>
@@ -14,13 +14,6 @@
     <tags>dreamweaver library lbi html</tags>
   </metadata>
   <files>
-    <file src="Update-Lbi.psd1" target=""/>
-    <file src="Update-Lbi.psm1" target=""/>
-    <file src="Update-Lbi.Tests.ps1" target=""/>
-    <file src="LICENSE*" target=""/>
-    <file src="README.md" target=""/>
-    <file src="CHANGELOG.md" target=""/>
-    <file src="Media\**\*" target="\Media"/>
-    <file src="TestData\**\*" target="\TestData"/>
+    <file src="Update-Lbi\**\*.*" target="\" />
   </files>
 </package>
