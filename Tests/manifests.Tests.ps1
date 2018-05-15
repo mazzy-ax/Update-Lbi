@@ -3,7 +3,6 @@ $moduleRoot = Split-Path (Resolve-Path $projectRoot\*\*.psd1)
 $moduleName = Split-Path $moduleRoot -Leaf
 
 $changelog = 'CHANGELOG.md'
-$readme = 'README.md'
 
 $script:manifest = $null
 
@@ -98,16 +97,4 @@ Describe 'Nuget specification Tests' -Tag Meta {
         $nuspec.package.metadata.licenseUrl | Should -Be $manifest.PrivateData.PSData.LicenseUri
     }
 
-}
-
-Describe "$readme Tests" -Tag Meta {
-
-    It "has a valid shields.io/badge/version in the $readme file" {
-        Get-Content -Path $projectRoot\$readme |
-            Where-Object { $_ -match '\[version\.svg\]:https://img\.shields\.io/badge/version-(?<Version>(\d+\.){1,3}\d+)-green\.svg' } | 
-            Select-Object -First 1
-
-        $ReadmeVersion = $Matches.Version
-        $ReadmeVersion | Should -Be $manifest.Version
-    }
 }

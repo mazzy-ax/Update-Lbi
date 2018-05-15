@@ -4,17 +4,14 @@
 [license]:https://github.com/mazzy-ax/Update-Lbi/blob/master/LICENSE
 [ps]:https://www.powershellgallery.com/packages/Update-Lbi
 [nuget]:https://www.nuget.org/packages/update-lbi
+[appveyor]:https://ci.appveyor.com/project/mazzy-ax/update-lbi
 
-[version.svg]:https://img.shields.io/badge/version-0.4.0-green.svg
-[license.svg]:https://img.shields.io/badge/license-MIT-blue.svg
-[ps.svg]:https://img.shields.io/badge/Powershell-Gallery-4682B4.svg
-[nuget.svg]:https://img.shields.io/badge/downloads-NuGet-orange.svg
-
-[![version][version.svg]][project] [![license MIT][license.svg]][license] [![PowerShell Gallery][ps.svg]][ps] [![NuGet][nuget.svg]][nuget]
+[![Build status](https://ci.appveyor.com/api/projects/status/vbma1t98ml2xakcw?svg=true)][appveyor]
+[![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/Update-Lbi.svg)][ps]
+[![NuGet](https://buildstats.info/nuget/Update-Lbi)][nuget]
+<img src="https://raw.githubusercontent.com/mazzy-ax/Update-Lbi/master/Media/Update-Lbi-icon.png" align="right" alt="Update-Lbi icon">
 
 [Update-Lbi][project] is powershell cmdlet updates **Dreamweaver library items** (LBI) within html-files.
-
-![icon](/Media/Update-Lbi-icon.png "Update-Lbi")
 
 LBI-block format:
 
@@ -87,6 +84,6 @@ Set-ExecutionPolicy RemoteSigned
 
 ## License
 
-This project is [licensed under the MIT License][license].
+This project is released under the [licensed under the MIT License][license].
 
 mazzy@mazzy.ru

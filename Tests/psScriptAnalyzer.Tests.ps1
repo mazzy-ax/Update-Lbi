@@ -7,14 +7,11 @@ $ExcludeRules = @(
 )
 
 Describe "PSScriptAnalyzer Rules for $moduleName" -Tag Meta, BestPractice, BP {
-    $analysis = Invoke-ScriptAnalyzer -Path $projectRoot -Recurse -ExcludeRule $ExcludeRules
-    $scriptAnalyzerRules = Get-ScriptAnalyzerRule
-    forEach ($rule in $scriptAnalyzerRules) {
-        It "Should pass $rule" {
-            If (($analysis) -and ($analysis.RuleName -contains $rule)) {
-                $analysis | Where-Object RuleName -EQ $rule -OutVariable failures | Out-Default
-                $failures.Count | Should Be 0
-            }
-        }
+    $analysis = Invoke-ScriptAnalyzer -Path $projectRoot -ExcludeRule $ExcludeRules -Recurse
+    $analysis | Out-Default
+
+    It "Should have no failures" {
+        $analysis.Count | Should -Be 0
     }
+
 }
