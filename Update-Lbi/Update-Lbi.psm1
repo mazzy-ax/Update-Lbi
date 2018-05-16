@@ -38,5 +38,5 @@ ForEach ($folder in $functionFolders)
     }
 }
 
-$publicFunctions = (Get-ChildItem -Path "$PSScriptRoot\functions\*.ps1").baseName
+$publicFunctions = (Get-ChildItem -Path "$PSScriptRoot\Functions\*.ps1").baseName
 Export-ModuleMember -Function $publicFunctions
