@@ -17,7 +17,7 @@ init:
 
 install:
 - ps: |
-    Install-Module -Name Pester, PSScriptAnalyzer, SplitPipeline -Force
+    Install-Module -Name Pester, PSScriptAnalyzer -Force -Scope CurrentUser
 
 build_script:
 - ps: |

@@ -21,7 +21,7 @@ https://helpx.adobe.com/dreamweaver/using/library-items.html
 param()
 Write-Verbose $PSScriptRoot
 
-$functionFolders = @('classes', 'internal', 'functions')
+$functionFolders = @('Classes', 'Internal', 'Functions')
 ForEach ($folder in $functionFolders)
 {
     $folderPath = Join-Path -Path $PSScriptRoot -ChildPath $folder
