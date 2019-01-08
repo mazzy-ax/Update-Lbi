@@ -4,7 +4,7 @@ $moduleName = Split-Path $moduleRoot -Leaf
 
 $assets = "$projectRoot\Tests\TestData"
 
-#Import-Module $moduleRoot -Force
+Import-Module $moduleRoot -Force
 
 Describe $moduleName -Tags Run, UnitTest, UT {
 

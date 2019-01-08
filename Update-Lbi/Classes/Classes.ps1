@@ -17,7 +17,7 @@ Class HtmlFragment {
     }
 
     [String]LastLineIndent([String]$PreviousIndent = '') {
-        if ( $this.Value -match '(?<indent>\n\s*)(?:.*)$' ) {
+        if ( $this.Value -match '(?<indent>\n[\t ]*)(?:.*)$' ) {
             return $Matches['indent']
         }
 
