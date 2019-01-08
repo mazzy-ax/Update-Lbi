@@ -13,7 +13,7 @@ The default location is the current directory.
 Forces the set-content to set the contents of a file, even if the file is read-only.
 
 .PARAMETER UseCachedLbiOnly
-Use early cached library items only. If the switch enabled and a lbi is not found in the cache, cmdlet uses the original framgent.
+Use early cached library items only. If the switch enabled and a lbi is not found in the cache, function uses the original framgent.
 
 .LINK
 set-content

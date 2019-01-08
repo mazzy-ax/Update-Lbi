@@ -3,7 +3,7 @@
 Update lbi in several html files.
 
 .DESCRIPTION
-The cmdlet provide useful features:
+The function provides useful features:
 * default values to easy updates all html file from site root directory
 * maintain wildcards
 * show progress bar (TODO)
@@ -32,10 +32,10 @@ Gets the files in the specified path and in all child directory.
 Forces the set-content to set the contents of a file, even if the file is read-only.
 
 .PARAMETER UseCachedLbiOnly
-Use early cached library items only. If the switch enabled and a lbi is not found in the cache, cmdlet uses the original framgent.
+Use early cached library items only. If the switch enabled and a lbi is not found in the cache, function uses the original framgent.
 
 .PARAMETER SkipResetLbiCache
-Do not reset library item cache - the Update-LibItem cmdlets should read lbi-files once again.
+Do not reset library item cache - the Update-LibItem function should read lbi-files once again.
 
 .LINK
 set-content
