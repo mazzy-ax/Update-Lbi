@@ -11,7 +11,7 @@
 [![NuGet](https://buildstats.info/nuget/Update-Lbi)][nuget]
 <img src="https://raw.githubusercontent.com/mazzy-ax/Update-Lbi/master/Media/Update-Lbi-icon.png" align="right" alt="Update-Lbi icon">
 
-[Update-Lbi][project] is powershell cmdlet updates **Dreamweaver library items** (LBI) within html-files.
+[Update-Lbi][project] is powershell module with advanced functions updates **Dreamweaver library items** (LBI) within html-files.
 
 LBI-block format:
 
@@ -21,20 +21,20 @@ html tags and regular texts
 <!-- #EndLibraryItem -->
 ```
 
-The cmlet read filename.lbi and refresh all content between #BeginLibraryItem and #EndLibraryItem html-comments.
+The function reads `filename.lbi` and refreshes all content between #BeginLibraryItem and #EndLibraryItem html-comments.
 
 See more about LBI: <https://helpx.adobe.com/dreamweaver/using/library-items.html>
 
 ## Examples
 
-Update all html-files in the site root directory and it's subdirectories. The cmdlet reinitialize the lbi-cache at each execution.
+Update all html-files in the site root directory and it's subdirectories. The function `Update-Lbi` reinitialize the lbi-cache at each execution.
 
 ```powershell
 Set-Location %siteRoot%
 Update-Lbi -Recurse
 ```
 
-Update library items with 'menu' name prefix only in all html-files in the site root directory. Lbi with other file names is not change.
+Update library items with `menu` prefix only in all html-files in the site root directory. `Lbi` with other file names is not change.
 
 ```powershell
 Set-Location %siteRoot%
@@ -42,7 +42,7 @@ Read-Lbi -include 'menu*.lbi'
 Update-Lbi -UseCachedItemsOnly
 ```
 
-Update library items with specified folders. The cmdlet read each lbi from file only once.
+Update library items with specified folders. The function `Update-Lbi` reads each `lbi` from file only once.
 
 ```powershell
 Set-Location %siteRoot%
@@ -54,13 +54,13 @@ Reset-LbiCache | % {
 
 ## Installation
 
-Automatic install the Update-Lbi cmdlet from the [PowerShell Gallery][ps]:
+Automatic install the module from the [PowerShell Gallery][ps]:
 
 ```powershell
 Install-Module Update-Lbi
 ```
 
-Automatic install the Update-Lbi cmdlet from the [NuGet.org][nuget]:
+Automatic install the module from the [NuGet.org][nuget]:
 
 ```powershell
 Install-Package Update-Lbi
@@ -72,10 +72,9 @@ or manual download and unzip the [latest module files](https://github.com/mazzy-
 Set-ExecutionPolicy RemoteSigned
 ```
 
-## Known issues and ideas for a future development
+## Known issues
 
-* The cmdlet does not read a character encoding from LBI and html-files. The cmdlet always use UTF-8 encoding.
-* The cmdlet does not use parallel processing. It is one thread application.
+* The function does not read a character encoding from LBI and html-files, it uses UTF-8 encoding anyway.
 
 ## Changelog
 
