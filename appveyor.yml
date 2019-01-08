@@ -29,8 +29,7 @@ build_script:
 
 test_script:
 - ps: |
-    $testResult = 'TestsResults.xml'
-    $res = Invoke-Pester -OutputFormat NUnitXml -OutputFile $testResult -PassThru
+    $res = Invoke-Pester -OutputFormat NUnitXml -OutputFile TestsResults.xml -PassThru
     $dest = "https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)"
-    (New-Object 'System.Net.WebClient').UploadFile($dest, (Resolve-Path $testResult))
+    (New-Object 'System.Net.WebClient').UploadFile($dest, (Resolve-Path TestsResults.xml))
     if ($res.FailedCount) { throw "$($res.FailedCount) tests failed."}
