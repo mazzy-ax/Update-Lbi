@@ -17,7 +17,7 @@ LBI-block format:
 
 ```html
 <!-- #BeginLibraryItem "/Library/filename.lbi" -->
-html tags and regular texts
+html tags and regular text
 <!-- #EndLibraryItem -->
 ```
 
