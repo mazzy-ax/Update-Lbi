@@ -1,14 +1,21 @@
 # See http://www.appveyor.com/docs/appveyor-yml for many more options
 
-version: 0.4.{build}
-
-skip_commits:
-  message: /readme.*|doc.*/
+version: 0.4.0.{build}
 
 only_commits:
   files:
     - $env:APPVEYOR_PROJECT_NAME/
     - $env:APPVEYOR_PROJECT_NAME.nuspec
+    - Tests/
+    - appveyor.yml
+
+skip_commits:
+  files:
+    - '**/*.md'
+
+image:
+- Visual Studio 2017
+- Ubuntu
 
 init:
 - ps: |
@@ -17,7 +24,8 @@ init:
 
 install:
 - ps: |
-    Install-Module -Name Pester, PSScriptAnalyzer -Force -Scope CurrentUser
+    Install-Module -Name Pester -Force -Scope CurrentUser -SkipPublisherCheck
+    Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
 
 build_script:
 - ps: |
