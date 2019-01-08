@@ -9,10 +9,6 @@ only_commits:
     - Tests/
     - appveyor.yml
 
-skip_commits:
-  files:
-    - '**/*.md'
-
 image:
 - Visual Studio 2017
 - Ubuntu
