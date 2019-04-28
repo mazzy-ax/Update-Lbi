@@ -20,12 +20,12 @@ Describe $moduleName -Tags Run, UnitTest, UT {
 
         It "index.html" {
             $Index = Get-Content 'TestDrive:\index.expected' -Encoding UTF8 -Raw
-            Get-Content 'TestDrive:\index.html' -Encoding UTF8 -Raw | Should be $Index
+            Get-Content 'TestDrive:\index.html' -Encoding UTF8 -Raw | Should -BeExactly $Index
         }
 
         It "test.html" {
             $Test = Get-Content 'TestDrive:\test.expected' -Encoding UTF8 -Raw
-            Get-Content 'TestDrive:\test.html' -Encoding UTF8 -Raw | Should be $Test
+            Get-Content 'TestDrive:\test.html' -Encoding UTF8 -Raw | Should -BeExactly $Test
         }
     }
 
@@ -42,12 +42,12 @@ Describe $moduleName -Tags Run, UnitTest, UT {
 
         It "index.html" {
             $Index = Get-Content 'TestDrive:\index.expected' -Encoding UTF8 -Raw
-            Get-Content 'TestDrive:\index.html' -Encoding UTF8 -Raw | Should be $Index
+            Get-Content 'TestDrive:\index.html' -Encoding UTF8 -Raw | Should -BeExactly $Index
         }
 
         It "test.html" {
             $Test = Get-Content 'TestDrive:\test.expected' -Encoding UTF8 -Raw
-            Get-Content 'TestDrive:\test.html' -Encoding UTF8 -Raw | Should be $Test
+            Get-Content 'TestDrive:\test.html' -Encoding UTF8 -Raw | Should -BeExactly $Test
         }
     }
 
@@ -66,12 +66,12 @@ Describe $moduleName -Tags Run, UnitTest, UT {
 
         It "index.html" {
             $Index = Get-Content 'TestDrive:\index.expected' -Encoding UTF8 -Raw
-            Get-Content 'TestDrive:\index.html' -Encoding UTF8 -Raw | Should be $Index
+            Get-Content 'TestDrive:\index.html' -Encoding UTF8 -Raw | Should -BeExactly $Index
         }
 
         It "test.html" {
             $Test = Get-Content 'TestDrive:\test.expected' -Encoding UTF8 -Raw
-            Get-Content 'TestDrive:\test.html' -Encoding UTF8 -Raw | Should be $Test
+            Get-Content 'TestDrive:\test.html' -Encoding UTF8 -Raw | Should -BeExactly $Test
         }
     }
 }

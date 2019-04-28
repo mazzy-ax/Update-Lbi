@@ -6,6 +6,12 @@
         div line 2
     </div>
     <!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/Library/testdiv.lbi" -->
+    <div>
+        div line 1
+        div line 2
+    </div>
+    <!-- #EndLibraryItem -->
 
     more <!-- #BeginLibraryItem "/Library/testdiv.lbi" -->
     <div>
