@@ -45,7 +45,7 @@ function Update-LibItem {
                     Update-HtmlFragment -UseCachedLbiOnly:$UseCachedLbiOnly |
                     Merge-HtmlFragment
 
-                if ( $HtmlSource -ne $HtmlResult ) {
+                if ( $HtmlSource -cne $HtmlResult ) {
                     $HtmlResult | Out-File -FilePath $File -Encoding UTF8 -NoNewline -Force:$Force
                 }
             }

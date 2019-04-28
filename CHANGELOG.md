@@ -2,6 +2,10 @@
 
 All notable changes to the [project](https://github.com/mazzy-ax/Update-Lbi) will be documented in this file. See also <https://github.com/mazzy-ax/Update-Lbi/releases>.
 
+## [0.5.0](https://github.com/mazzy-ax/Update-Lbi/compare/v0.4.1...v0.5.0) - 2019-04-28
+
+* Fix bug with case sensitivity: `Update-Lbi` uses case sensitivity check while update a content.
+
 ## [0.4.1](https://github.com/mazzy-ax/Update-Lbi/compare/v0.4.0...v0.4.1) - 2019-01-08
 
 * Fix bug #2 with extra space
