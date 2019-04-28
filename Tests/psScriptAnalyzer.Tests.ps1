@@ -1,17 +1,17 @@
+#Requires -module Pester
+
 $projectRoot = Resolve-Path "$PSScriptRoot\.."
 $moduleRoot = Split-Path (Resolve-Path "$projectRoot\*\*.psd1")
 $moduleName = Split-Path $moduleRoot -Leaf
 
-$ExcludeRules = @(
-    'PSUseShouldProcessForStateChangingFunctions'
-)
-
 Describe "PSScriptAnalyzer Rules for $moduleName" -Tag Meta, BestPractice, BP {
-    $analysis = Invoke-ScriptAnalyzer -Path $projectRoot -ExcludeRule $ExcludeRules -Recurse
-    $analysis | Out-Default
+    $analysis = Invoke-ScriptAnalyzer -Path $projectRoot -Recurse
 
-    It "Should have no failures" {
-        $analysis.Count | Should -Be 0
+    $analysis | ForEach-Object {
+        $_ | Out-Default
     }
 
+    It "Should be 0 diagnostic messages" {
+        $analysis.count | Should -Be 0
+    }
 }
